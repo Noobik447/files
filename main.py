@@ -46,5 +46,3 @@ if __name__ == "__main__":
     window = MyWindow()
     window.show()
     sys.exit(app.exec_())
-
-#os.path.basename(path_of_the_file)
