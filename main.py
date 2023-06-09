@@ -38,7 +38,6 @@ class MyWindow(QtWidgets.QWidget):
             new_file_name = str(self.le.text())
             new_file_path = os.path.join(file_directory, new_file_name)
             os.rename(self.file_name, new_file_path)
-            #os.rename(self.file, str(self.le.text))
 
 if __name__ == "__main__":
     import sys
