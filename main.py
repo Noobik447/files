@@ -5,6 +5,7 @@ import os
 class MyWindow(QtWidgets.QWidget):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
+        self.setWindowTitle("Управление файлом")
         
         vbox = QtWidgets.QVBoxLayout()
         self.btn = QtWidgets.QPushButton("Выбрать файл")
@@ -29,15 +30,25 @@ class MyWindow(QtWidgets.QWidget):
             self.le.setText(self.file)
     
     def delete_file(self):
-        if self.file_name:
-            os.remove(self.file_name)
+        try:
+            if self.file_name:
+                os.remove(self.file_name)
+        except AttributeError:
+            print("Выберите файл")
+            self.setWindowTitle("Выберите файл")
     
     def rename_file(self):
-        if self.file_name:
-            file_directory = os.path.dirname(self.file_name)
-            new_file_name = str(self.le.text())
-            new_file_path = os.path.join(file_directory, new_file_name)
-            os.rename(self.file_name, new_file_path)
+        try:
+            if self.file_name:
+                file_directory = os.path.dirname(self.file_name)
+                new_file_name = str(self.le.text())
+                new_file_path = os.path.join(file_directory, new_file_name)
+                os.rename(self.file_name, new_file_path)
+                self.file_name = new_file_path
+        except AttributeError:
+            print("Выберите файл")
+            self.setWindowTitle("Выберите файл")
+            
 
 if __name__ == "__main__":
     import sys
