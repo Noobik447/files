@@ -6,6 +6,7 @@ class MyWindow(QtWidgets.QWidget):
     def __init__(self, parent=None):
         QtWidgets.QWidget.__init__(self, parent)
         self.setWindowTitle("Управление файлом")
+        self.resize(285, 100)
         
         vbox = QtWidgets.QVBoxLayout()
         self.btn = QtWidgets.QPushButton("Выбрать файл")
@@ -15,11 +16,14 @@ class MyWindow(QtWidgets.QWidget):
         self.btn3 = QtWidgets.QPushButton("Изменить имя файла")
         self.btn3.clicked.connect(self.rename_file)
         self.le = QtWidgets.QLineEdit()
+        self.btn4 = QtWidgets.QPushButton("Создать файл")
+        self.btn4.clicked.connect(self.create_File)
         
         vbox.addWidget(self.btn)
         vbox.addWidget(self.le)
-        vbox.addWidget(self.btn2)
+        vbox.addWidget(self.btn4)
         vbox.addWidget(self.btn3)
+        vbox.addWidget(self.btn2)
         
         self.setLayout(vbox)
         
@@ -49,7 +53,14 @@ class MyWindow(QtWidgets.QWidget):
             print("Выберите файл")
             self.setWindowTitle("Выберите файл")
             
-
+    def create_File(self):
+        self.file_name, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save File", "")
+        f = open(self.file_name, "w")
+        f.close()
+        if self.file_name:
+            self.file = os.path.basename(self.file_name)
+            self.le.setText(self.file)
+            
 if __name__ == "__main__":
     import sys
     
