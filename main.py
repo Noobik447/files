@@ -18,9 +18,12 @@ class MyWindow(QtWidgets.QWidget):
         self.le = QtWidgets.QLineEdit()
         self.btn4 = QtWidgets.QPushButton("Создать файл")
         self.btn4.clicked.connect(self.create_File)
+        self.btn5 = QtWidgets.QPushButton("Создать папку")
+        self.btn5.clicked.connect(self.create_folder)
         
         vbox.addWidget(self.btn)
         vbox.addWidget(self.le)
+        vbox.addWidget(self.btn5)
         vbox.addWidget(self.btn4)
         vbox.addWidget(self.btn3)
         vbox.addWidget(self.btn2)
@@ -28,7 +31,7 @@ class MyWindow(QtWidgets.QWidget):
         self.setLayout(vbox)
         
     def select_file(self):
-        self.file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Open File", "")
+        self.file_name, _ = QtWidgets.QFileDialog.getOpenFileName(self, "Открыть файл", "")
         if self.file_name:
             self.file = os.path.basename(self.file_name)
             self.le.setText(self.file)
@@ -54,13 +57,19 @@ class MyWindow(QtWidgets.QWidget):
             self.setWindowTitle("Выберите файл")
             
     def create_File(self):
-        self.file_name, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Save File", "")
-        f = open(self.file_name, "w")
-        f.close()
+        self.file_name, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Сохранить файл", "")
         if self.file_name:
+            f = open(self.file_name, "w")
+            f.close()
             self.file = os.path.basename(self.file_name)
             self.le.setText(self.file)
             
+    def create_folder(self):
+        self.folder_name, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Сохранить папку", "")
+        if self.folder_name:
+            os.mkdir(self.folder_name)
+        
+        
 if __name__ == "__main__":
     import sys
     
