@@ -1,5 +1,6 @@
 from PyQt5 import QtWidgets
 import os
+import shutil
 
 
 class MyWindow(QtWidgets.QMainWindow):
@@ -85,6 +86,7 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             if self.file_name:
                 os.remove(self.file_name)
+                self.le.clear()
         except AttributeError:
             print("Выберите файл")
             self.setWindowTitle("Выберите файл")
@@ -116,6 +118,8 @@ class MyWindow(QtWidgets.QMainWindow):
         self.folder_name, _ = QtWidgets.QFileDialog.getSaveFileName(self, "Сохранить папку", "")
         if self.folder_name:
             os.mkdir(self.folder_name)
+            self.folder = os.path.basename(self.folder_name)
+            self.le.setText(self.folder)
             
     def rename_folder(self):
         try:
@@ -133,12 +137,18 @@ class MyWindow(QtWidgets.QMainWindow):
         try:
             if self.folder_name:
                 os.rmdir(self.folder_name)
+                self.le.clear()
         except AttributeError:
             print("Выберите папку")
             self.setWindowTitle("Выберите папку")
         except OSError:
-            print("Невозможно удалить папку")
-            self.setWindowTitle("Невозможно удалить папку")
+            respone = QtWidgets.QMessageBox.question(None, "Ошибка", "В папке есть файлы, удалить их?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+
+            if respone == QtWidgets.QMessageBox.Yes:
+                shutil.rmtree(self.folder_name)
+                self.le.clear()
+            else:
+                pass
     
     def select_folder(self):
         self.folder_name = QtWidgets.QFileDialog.getExistingDirectory(self, "Открыть папку", "")
